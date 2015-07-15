@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
 Flickr Justified Gallery
 Version: 3.3.6
 Author: Miro Mannino
@@ -11,14 +11,14 @@ thanks to Dan Coulter for phpFlickr Class (dan@dancoulter.com)
 This file is part of Flickr Justified Gallery Wordpress Plugin.
 
 Flickr Justified Gallery Wordpress Plugin is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the Free Software 
+it under the terms of the GNU General Public License as published by the Free Software
 Foundation, either version 3 of the License, or (at your option) any later version.
 
 Flickr Justified Gallery Wordpress Plugin is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with Flickr Justified 
+You should have received a copy of the GNU General Public License along with Flickr Justified
 Gallery Wordpress Plugin. If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -31,6 +31,12 @@ if (!function_exists( 'fjgwpp_plugin_uninstall')) {
 		}
 		if (get_option('$fjgwpp_APIKey')) {
 			delete_option('$fjgwpp_APIKey');
+		}
+		if (get_option('$fjgwpp_APISecret')) {
+			delete_option('$fjgwpp_APISecret');
+		}
+		if (get_option('$fjgwpp_APIToken')) {
+			delete_option('$fjgwpp_APIToken');
 		}
 		if (get_option('$fjgwpp_maxPhotosPP')) {
 			delete_option('$fjgwpp_maxPhotosPP');
@@ -106,6 +112,8 @@ function fjgwpp_settings() {
 	//Get Values
 	$fjgwpp_userID_saved = fjgwpp_getOption('userID', '');
 	$fjgwpp_APIKey_saved = fjgwpp_getOption('APIKey', '');
+	$fjgwpp_APISecret_saved = fjgwpp_getOption('APISecret', '');
+	$fjgwpp_APIToken_saved = fjgwpp_getOption('APIToken', '');
 	$fjgwpp_imagesHeight_saved = (int)fjgwpp_getOption('imagesHeight', $fjgwpp_imagesHeight_default);
 	$fjgwpp_maxPhotosPP_saved = (int)fjgwpp_getOption('maxPhotosPP', $fjgwpp_maxPhotosPP_default);
 	$fjgwpp_lastRow_saved = (int)fjgwpp_getOption('lastRow', $fjgwpp_lastRow_default);
@@ -121,7 +129,7 @@ function fjgwpp_settings() {
 	$fjgwpp_openOriginals_saved = (int)fjgwpp_getOption('openOriginals', $fjgwpp_openOriginals_default);
 	$fjgwpp_bcontextmenu_saved = (int)fjgwpp_getOption('bcontextmenu', $fjgwpp_bcontextmenu_default);
 	$fjgwpp_flickrAPIWrapperVersion_saved = (int)fjgwpp_getOption('flickrAPIWrapperVersion', $fjgwpp_flickrAPIWrapperVersion_default);
-	
+
 	//Save Values
 	if (isset($_POST['Submit'])) {
 
@@ -135,20 +143,37 @@ function fjgwpp_settings() {
 			require_once("phpFlickr_a" . $fjgwpp_flickrAPIWrapperVersion_saved . "/phpFlickr.php");
 		}
 
+
 		//Check the API Key
 		$fjgwpp_APIKey_saved = trim($_POST["fjgwpp_APIKey"]);
-		$f = new phpFlickr($fjgwpp_APIKey_saved);
+		//Check the API Secret
+		$fjgwpp_APISecret_saved = trim($_POST["fjgwpp_APISecret"]);
+		//Check the API Token
+		$fjgwpp_APIToken_saved = trim($_POST["fjgwpp_APIToken"]);
+		if($fjgwpp_APISecret_saved && $fjgwpp_APIToken_saved) { // test fully authenticated call
+			$f = new phpFlickr($fjgwpp_APIKey_saved,$fjgwpp_APISecret_saved);
+			$f->setToken($fjgwpp_APIToken_saved);
+			$f->auth("read");
 
-		if ($f->test_echo() == false) {
-			$error = true;
-			$error_msg .=	'<li>' . __('API Key is not valid', 'fjgwpp' ) . '</li>'; 
+			if ($f->test_echo() == false) {
+				$error = true;
+				$error_msg .=	'<li>' . __('API Secret or Token are not valid', 'fjgwpp' ) . '</li>';
+			}
+		} else { // test standard call
+			$f = new phpFlickr($fjgwpp_APIKey_saved);
+
+			if ($f->test_echo() == false) {
+				$error = true;
+				$error_msg .=	'<li>' . __('API Key is not valid', 'fjgwpp' ) . '</li>';
+			}
 		}
+
 
 		$fjgwpp_userID_saved = trim($_POST["fjgwpp_userID"]);
 		if (!$error) {
 			if ($f->urls_getUserProfile($fjgwpp_userID_saved) == false) {
 				$error = true;
-				$error_msg .=	'<li>' . __('Invalid UserID', 'fjgwpp' ) . '</li>'; 		
+				$error_msg .=	'<li>' . __('Invalid UserID', 'fjgwpp' ) . '</li>';
 			}
 		}
 
@@ -214,6 +239,8 @@ function fjgwpp_settings() {
 
 		if ($error == false) {
 			update_option('$fjgwpp_APIKey', $fjgwpp_APIKey_saved);
+			update_option('$fjgwpp_APISecret', $fjgwpp_APISecret_saved);
+			update_option('$fjgwpp_APIToken', $fjgwpp_APIToken_saved);
 			update_option('$fjgwpp_userID', $fjgwpp_userID_saved);
 			update_option('$fjgwpp_imagesHeight', $fjgwpp_imagesHeight_saved);
 			update_option('$fjgwpp_maxPhotosPP', $fjgwpp_maxPhotosPP_saved);
@@ -250,7 +277,7 @@ function fjgwpp_settings() {
 		#poststuff h3 { cursor: auto; }
 	</style>
 
-			 
+
 	<div class="wrap">
 		<h2>Flickr Justified Gallery</h2>
 
@@ -281,7 +308,7 @@ function fjgwpp_settings() {
 						</div>
 					</p>
 
-		
+
 					<h4><?php _e('Sets', 'fjgwpp' ); ?></h4>
 					<p>
 						<?php _e('To show the photos of a particular photo set, you need to know its <code>photoset_id</code>.', 'fjgwpp' ); ?>
@@ -336,7 +363,7 @@ function fjgwpp_settings() {
 						<p>
 							<?php _e('You can also exclude results that match a term by prepending it with a <code>-</code> character.', 'fjgwpp' ); ?>
 							<?php _e('Then, you can choose to use the list as a OR combination of tags (to return photos that have <b>any</b> tag), or an AND combination (to return photos that have <b>all</b> the tags).', 'fjgwpp' ); ?>
-							<?php _e('To do this, you need to use the <code>tags_mode</code>, specifying "any" or "all". For example:', 'fjgwpp' ); ?>						
+							<?php _e('To do this, you need to use the <code>tags_mode</code>, specifying "any" or "all". For example:', 'fjgwpp' ); ?>
 							<div style="margin-left: 30px">
 								<pre>[flickr_tags user_id="67681714@N03" tags="cat, square, nikon" tags_mode="all"]</pre>
 								<?php _e('Displays photos with all the tags listed (the list is viewed as an AND combination).', 'fjgwpp' ); ?>
@@ -363,11 +390,39 @@ function fjgwpp_settings() {
 								</th>
 								<td>
 									<label for="fjgwpp_APIKey">
-									<input type="text" name="fjgwpp_APIKey" 
+									<input type="text" name="fjgwpp_APIKey"
 										value="<?php echo($fjgwpp_APIKey_saved); ?>"
 										style="margin-right:10px"
-									/> 	
+									/>
 									<?php _e('Get your Flickr API Key from ', 'fjgwpp' ); ?><a href="http://www.flickr.com/services/api/keys/" target="_blank">Flickr API</a>
+									<div><?php _e('You can\'t use an attribute to change this setting', 'fjgwpp'); ?></div>
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									<label><?php _e('Flickr API Secret', 'fjgwpp'); ?></label>
+								</th>
+								<td>
+									<label for="fjgwpp_APISecret">
+									<input type="text" name="fjgwpp_APISecret"
+										value="<?php echo($fjgwpp_APISecret_saved); ?>"
+										style="margin-right:10px"
+									/>
+									<div><?php _e('You can\'t use an attribute to change this setting', 'fjgwpp'); ?></div>
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									<label><?php _e('Flickr API Token', 'fjgwpp'); ?></label>
+								</th>
+								<td>
+									<label for="fjgwpp_APIToken">
+									<input type="text" name="fjgwpp_APIToken"
+										value="<?php echo($fjgwpp_APIToken_saved); ?>"
+										style="margin-right:10px"
+									/>
 									<div><?php _e('You can\'t use an attribute to change this setting', 'fjgwpp'); ?></div>
 									</label>
 								</td>
@@ -394,7 +449,7 @@ function fjgwpp_settings() {
 								<th scope="row"><?php _e('Images Height (in px)', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_imagesHeight">
-										<input type="text" name="fjgwpp_imagesHeight" 
+										<input type="text" name="fjgwpp_imagesHeight"
 											value="<?php echo($fjgwpp_imagesHeight_saved); ?>"
 										/>
 										<div><?php echo( __('You can use the <code>', 'fjgwpp') . 'images_height' . __('</code> attribute to change this default value', 'fjgwpp') ); ?></div>
@@ -405,11 +460,11 @@ function fjgwpp_settings() {
 								<th scope="row"><?php _e('Maximum number of photos per page', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_maxPhotosPP">
-										<input type="text" name="fjgwpp_maxPhotosPP" 
+										<input type="text" name="fjgwpp_maxPhotosPP"
 											value="<?php echo($fjgwpp_maxPhotosPP_saved); ?>"
 										/>
 										<div><?php echo( __('You can use the <code>', 'fjgwpp') . 'max_num_photos' . __('</code> attribute to change this default value', 'fjgwpp') ); ?></div>
-									</label> 	
+									</label>
 								</td>
 							</tr>
 							<tr>
@@ -429,8 +484,8 @@ function fjgwpp_settings() {
 								<th scope="row"><?php _e('Fixed Height', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_fixedHeight">
-										<input type="checkbox" name="fjgwpp_fixedHeight" 
-											<?php if ($fjgwpp_fixedHeight_saved == 1) { echo('checked="checked"'); }; ?> 
+										<input type="checkbox" name="fjgwpp_fixedHeight"
+											<?php if ($fjgwpp_fixedHeight_saved == 1) { echo('checked="checked"'); }; ?>
 											value="1"
 											style="margin-right:5px"
 										/>
@@ -466,8 +521,8 @@ function fjgwpp_settings() {
 									</label>
 									<br/>
 									<label for="fjgwpp_provideColorbox">
-										<input type="checkbox" name="fjgwpp_provideColorbox" 
-											<?php if ($fjgwpp_provideColorbox_saved == 1) { echo('checked="checked"'); }; ?> 
+										<input type="checkbox" name="fjgwpp_provideColorbox"
+											<?php if ($fjgwpp_provideColorbox_saved == 1) { echo('checked="checked"'); }; ?>
 											value="1"
 											style="margin-right:5px"
 										/>
@@ -475,18 +530,18 @@ function fjgwpp_settings() {
 									</label>
 									<span>&nbsp;</span>
 									<label for="fjgwpp_provideSwipebox">
-										<input type="checkbox" name="fjgwpp_provideSwipebox" 
-											<?php if ($fjgwpp_provideSwipebox_saved == 1) { echo('checked="checked"'); }; ?> 
+										<input type="checkbox" name="fjgwpp_provideSwipebox"
+											<?php if ($fjgwpp_provideSwipebox_saved == 1) { echo('checked="checked"'); }; ?>
 											value="1"
 											style="margin-right:5px"
 										/>
 										<?php _e('Provide Swipebox', 'fjgwpp' ); ?>
 									</label>
 									<div>
-										<?php echo( __('Decide to include the lightbox libraries. Without them checked, make sure that you have installed the chosen lightboxes with a plugin (e.g. ', 'fjgwpp' ) 
-											. '<a href="https://wordpress.org/plugins/responsive-lightbox/">Responsive Lightbox</a>, ' 
-											. '<a href="http://wordpress.org/extend/plugins/jquery-colorbox/">jQuery Colorbox</a>, ' 
-											. '<a href="http://wordpress.org/extend/plugins/lightbox-plus/">Lightbox Plus Colorbox</a>).'); 
+										<?php echo( __('Decide to include the lightbox libraries. Without them checked, make sure that you have installed the chosen lightboxes with a plugin (e.g. ', 'fjgwpp' )
+											. '<a href="https://wordpress.org/plugins/responsive-lightbox/">Responsive Lightbox</a>, '
+											. '<a href="http://wordpress.org/extend/plugins/jquery-colorbox/">jQuery Colorbox</a>, '
+											. '<a href="http://wordpress.org/extend/plugins/lightbox-plus/">Lightbox Plus Colorbox</a>).');
 										?>
 									</div>
 								</td>
@@ -495,9 +550,9 @@ function fjgwpp_settings() {
 								<th scope="row"><?php _e('Captions', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_captions">
-									<input type="checkbox" name="fjgwpp_captions" 
-										<?php if ($fjgwpp_captions_saved == 1) { echo('checked="checked"'); }; ?> 
-										value="1" 
+									<input type="checkbox" name="fjgwpp_captions"
+										<?php if ($fjgwpp_captions_saved == 1) { echo('checked="checked"'); }; ?>
+										value="1"
 										style="margin-right:5px"
 									/>
 									<?php _e('If enabled, the title of the photo will be shown over the image when the mouse is over. Note: <i>captions, with small images, become aesthetically unpleasing</i>.', 'fjgwpp'); ?></li>
@@ -509,9 +564,9 @@ function fjgwpp_settings() {
 								<th scope="row"><?php _e('Show descriptions', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_showDescriptions">
-									<input type="checkbox" name="fjgwpp_showDescriptions" 
-										<?php if ($fjgwpp_showDescriptions_saved == 1) { echo('checked="checked"'); }; ?> 
-										value="1" 
+									<input type="checkbox" name="fjgwpp_showDescriptions"
+										<?php if ($fjgwpp_showDescriptions_saved == 1) { echo('checked="checked"'); }; ?>
+										value="1"
 										style="margin-right:5px"
 									/>
 									<?php _e('If the captions are enabled, the descriptions of the photos will be shown. Note: <i>descriptions, with small images, become aesthetically unpleasing</i>.', 'fjgwpp'); ?></li>
@@ -523,8 +578,8 @@ function fjgwpp_settings() {
 								<th scope="row"><?php _e('Randomize order', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_randomize">
-										<input type="checkbox" name="fjgwpp_randomize" 
-											<?php if ($fjgwpp_randomize_saved == 1) { echo('checked="checked"'); }; ?> 
+										<input type="checkbox" name="fjgwpp_randomize"
+											<?php if ($fjgwpp_randomize_saved == 1) { echo('checked="checked"'); }; ?>
 											value="1"
 											style="margin-right:5px"
 										/>
@@ -537,20 +592,20 @@ function fjgwpp_settings() {
 								<th scope="row"><?php _e('Margin between the images', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_margins">
-										<input type="text" name="fjgwpp_margins" 
+										<input type="text" name="fjgwpp_margins"
 											value="<?php echo($fjgwpp_margins_saved); ?>"
 											style="margin-right:10px"
 										/>
 										<div><?php echo( __('You can use the <code>', 'fjgwpp') . 'margins' . __('</code> attribute to change this default value', 'fjgwpp') ); ?></div>
-									</label> 	
+									</label>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row"><?php _e('Open original images', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_openOriginals">
-										<input type="checkbox" name="fjgwpp_openOriginals" 
-											<?php if ($fjgwpp_openOriginals_saved == 1) { echo('checked="checked"'); }; ?> 
+										<input type="checkbox" name="fjgwpp_openOriginals"
+											<?php if ($fjgwpp_openOriginals_saved == 1) { echo('checked="checked"'); }; ?>
 											value="1"
 											style="margin-right:5px"
 										/>
@@ -563,8 +618,8 @@ function fjgwpp_settings() {
 								<th scope="row"><?php _e('Block right click', 'fjgwpp' ); ?></th>
 								<td>
 									<label for="fjgwpp_bcontextmenu">
-										<input type="checkbox" name="fjgwpp_bcontextmenu" 
-											<?php if ($fjgwpp_bcontextmenu_saved == 1) { echo('checked="checked"'); }; ?> 
+										<input type="checkbox" name="fjgwpp_bcontextmenu"
+											<?php if ($fjgwpp_bcontextmenu_saved == 1) { echo('checked="checked"'); }; ?>
 											value="1"
 											style="margin-right:5px"
 										/>
@@ -582,7 +637,7 @@ function fjgwpp_settings() {
 											<option value="1" <?php if ($fjgwpp_flickrAPIWrapperVersion_saved === 1) { echo('selected="selected"'); }; ?> >phpFlickr (alternative version)</option>
 										</select>
 										<div><?php echo( __('If you have some problems to communicate with the Flickr\'s API could be useful to change the current version of phpFlickr', 'fjgwpp') ); ?></div>
-									</label> 	
+									</label>
 								</td>
 							</tr>
 						</table>
@@ -613,6 +668,6 @@ function fjgwpp_settings() {
 		</div>
 	</div>
 
-<?php 
+<?php
 }
 ?>
