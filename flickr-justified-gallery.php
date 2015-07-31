@@ -1,9 +1,9 @@
 <?php
-/*
+/* 
 Plugin Name: Flickr Justified Gallery
 Plugin URI: http://miromannino.it/projects/flickr-justified-gallery/
 Description: Shows the Flickr photostream, sets and galleries, with an high quality justified gallery.
-Version: 3.3.6
+Version: 3.4.0
 Author: Miro Mannino
 Author URI: http://miromannino.com/about-me/
 
@@ -13,14 +13,14 @@ thanks to Dan Coulter for phpFlickr Class (dan@dancoulter.com)
 This file is part of Flickr Justified Gallery Wordpress Plugin.
 
 Flickr Justified Gallery Wordpress Plugin is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the Free Software
+it under the terms of the GNU General Public License as published by the Free Software 
 Foundation, either version 3 of the License, or (at your option) any later version.
 
 Flickr Justified Gallery Wordpress Plugin is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with Flickr Justified
+You should have received a copy of the GNU General Public License along with Flickr Justified 
 Gallery Wordpress Plugin. If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -43,10 +43,10 @@ $fjgwpp_flickrAPIWrapperVersion_default = '0';
 
 //Add the link to the plugin page
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'fjgwpp_plugin_settings_link' );
-function fjgwpp_plugin_settings_link($links) {
-	$settings_link = '<a href="options-general.php?page=fjgwpp.php">Settings</a>';
-	array_unshift($links, $settings_link);
-	return $links;
+function fjgwpp_plugin_settings_link($links) { 
+	$settings_link = '<a href="options-general.php?page=fjgwpp.php">Settings</a>'; 
+	array_unshift($links, $settings_link); 
+	return $links; 
 }
 
 //Activation hook, we check that the upload dir is writable
@@ -57,7 +57,7 @@ if (!function_exists( 'fjgwpp_plugin_uninstall')) {
 		@mkdir($upload_dir['basedir'].'/phpFlickrCache');
 		if (!is_writable($upload_dir['basedir'].'/phpFlickrCache')) {
 			deactivate_plugins(basename(__FILE__)); // Deactivate ourself
-			wp_die(__('Flickr Justified Gallery can\'t be activated: the cache Folder is not writable', 'fjgwpp')
+			wp_die(__('Flickr Justified Gallery can\'t be activated: the cache Folder is not writable', 'fjgwpp') 
 				. ' (' . $upload_dir['basedir'] .'/phpFlickrCache' . ')'
 			);
 		}
@@ -75,18 +75,25 @@ function fjgwpp_init() {
 add_action('wp_enqueue_scripts', 'fjgwpp_addCSSandJS');
 function fjgwpp_addCSSandJS() {
 
+	//Register styles
+	wp_register_style('justifiedGallery', plugins_url('css/justifiedGallery.min.css', __FILE__), NULL, 'v3.6');
+	wp_register_style('flickrJustifiedGalleryWPPlugin', plugins_url('css/flickrJustifiedGalleryWPPlugin.css', __FILE__), NULL, 'v3.4.0');
+
 	//Register scripts
-	wp_register_style('justifiedGallery', plugins_url('css/justifiedGallery.min.css', __FILE__));
-	wp_register_style('flickrJustifiedGalleryWPPlugin', plugins_url('css/flickrJustifiedGalleryWPPlugin.css', __FILE__));
-	wp_register_script('justifiedGallery', plugins_url('js/jquery.justifiedGallery.min.js', __FILE__));
-	wp_register_script('flickrJustifiedGalleryWPPlugin', plugins_url('js/flickrJustifiedGalleryWPPlugin.js', __FILE__));
+	wp_register_script('justifiedGallery', plugins_url('js/jquery.justifiedGallery.min.js', __FILE__), 
+		array('jquery'), 'v3.6', true);
+	wp_register_script('flickrJustifiedGalleryWPPlugin', plugins_url('js/flickrJustifiedGalleryWPPlugin.js', __FILE__), 
+		array('jquery', 'justifiedGallery'), 'v3.4.0', true);
+
 	if (fjgwpp_getOption('provideColorbox')) {
 		wp_register_style('colorbox', plugins_url('lightboxes/colorbox/colorbox.css', __FILE__));
-		wp_register_script('colorbox', plugins_url('lightboxes/colorbox/jquery.colorbox-min.js', __FILE__));
+		wp_register_script('colorbox', plugins_url('lightboxes/colorbox/jquery.colorbox-min.js', __FILE__),
+			array('jquery'), 'v1.5.14', true);
 	}
 	if (fjgwpp_getOption('provideSwipebox')) {
 		wp_register_style('swipebox', plugins_url('lightboxes/swipebox/css/swipebox.min.css', __FILE__));
-		wp_register_script('swipebox', plugins_url('lightboxes/swipebox/js/jquery.swipebox.min.js', __FILE__));
+		wp_register_script('swipebox', plugins_url('lightboxes/swipebox/js/jquery.swipebox.min.js', __FILE__),
+			array('jquery'), 'v1.3.0.2', true);
 	}
 
 	//Enqueue styles
@@ -104,14 +111,14 @@ function fjgwpp_addCSSandJS() {
 }
 
 function fjgwpp_formatError($errorMsg) {
-	return '<div class="flickr-justified-gallery-error"><span style="color:red">'
-		. __('Flickr Justified Gallery Plugin error', 'fjgwpp')
+	return '<div class="flickr-justified-gallery-error"><span style="color:red">' 
+		. __('Flickr Justified Gallery Plugin error', 'fjgwpp') 
 		. ': </span><span class="flickr-justified-gallery-error-msg">' . $errorMsg . '</span></div>';
 }
 
 function fjgwpp_formatFlickrAPIError($errorMsg) {
-	return '<div class="flickr-justified-gallery-error"><span style="color:red">'
-		. __('Flickr API error', 'fjgwpp')
+	return '<div class="flickr-justified-gallery-error"><span style="color:red">' 
+		. __('Flickr API error', 'fjgwpp') 
 		. ': </span><span class="flickr-justified-gallery-error-msg">' . $errorMsg . '</span></div>';
 }
 
@@ -136,7 +143,7 @@ function fjgwpp_createGallery($action, $atts) {
 	global $fjgwpp_flickrAPIWrapperVersion_default;
 	static $shortcode_unique_id = 0;
 	$ris = "";
-
+	
 	$page_num = (get_query_var('page')) ? get_query_var('page') : 1;
 	$flickrGalID = 'flickrGal' . $shortcode_unique_id;
 
@@ -149,7 +156,7 @@ function fjgwpp_createGallery($action, $atts) {
 		'tags' => NULL,
 		'tags_mode' => 'any',
 		'images_height' => fjgwpp_getOption('imagesHeight', $fjgwpp_imagesHeight_default), // Flickr images size
-		'max_num_photos' => fjgwpp_getOption('maxPhotosPP', $fjgwpp_maxPhotosPP_default), // Max number of Photos
+		'max_num_photos' => fjgwpp_getOption('maxPhotosPP', $fjgwpp_maxPhotosPP_default), // Max number of Photos	
 		'last_row' => fjgwpp_getOption('lastRow', $fjgwpp_lastRow_default),
 		'fixed_height' => fjgwpp_getOption('fixedHeight', $fjgwpp_fixedHeight_default) == 1,
 		'lightbox' => fjgwpp_getOption('lightbox', $fjgwpp_lightbox_default),
@@ -197,16 +204,8 @@ function fjgwpp_createGallery($action, $atts) {
 
 	//Inizialization---------------
 	$flickrAPIKey = trim(fjgwpp_getOption('APIKey')); //Flickr API Key
-	$flickrAPISecret = trim(fjgwpp_getOption('APISecret')); //Flickr API Secret
-	$flickrAPIToken = trim(fjgwpp_getOption('APIToken')); //Flickr API Token
-
-	if($flickrAPISecret && $flickrAPIToken) : // fully authenticated call
-			$f = new phpFlickr($flickrAPIKey,$flickrAPISecret);
-			$f->setToken($flickrAPIToken);
-			$f->auth("read");
-	else : // standard call
-		$f = new phpFlickr($flickrAPIKey);
-	endif;
+	
+	$f = new phpFlickr($flickrAPIKey);
 	$upload_dir = wp_upload_dir();
 	$f->enableCache("fs", $upload_dir['basedir']."/phpFlickrCache");
 
@@ -218,49 +217,49 @@ function fjgwpp_createGallery($action, $atts) {
 
 	//Errors-----------------------
 	if ($action === 'phs' || $action === 'gal' || $action === 'tag') {
-		if (!isset($user_id) || strlen($user_id) == 0)
-			return(fjgwpp_formatError(__('You must specify the user_id for this action, using the "user_id" attribute', 'fjgwpp')));
+		if (!isset($user_id) || strlen($user_id) == 0) 
+			return(fjgwpp_formatError(__('You must specify the user_id for this action, using the "user_id" attribute', 'fjgwpp')));	
 	}
 
 	if ($action === 'gal') {
-		if (!isset($id) || strlen($id) == 0)
-			return(fjgwpp_formatError(__('You must specify the id of the gallery, using the "id" attribute', 'fjgwpp')));
+		if (!isset($id) || strlen($id) == 0) 
+			return(fjgwpp_formatError(__('You must specify the id of the gallery, using the "id" attribute', 'fjgwpp')));	
 	}
 
 	if ($action === 'set') {
-		if (!isset($id) || strlen($id) == 0)
-			return(fjgwpp_formatError(__('You must specify the id of the set, using the "id" attribute', 'fjgwpp')));
+		if (!isset($id) || strlen($id) == 0) 
+			return(fjgwpp_formatError(__('You must specify the id of the set, using the "id" attribute', 'fjgwpp')));	
 	}
 
 	if ($action === 'tag') {
-		if (!isset($tags) || strlen($tags) == 0)
+		if (!isset($tags) || strlen($tags) == 0) 
 			return(fjgwpp_formatError(__('You must specify the tags using the "tags" attribute', 'fjgwpp')));
-		if ($tags_mode !== 'any' && $tags_mode !== 'all')
+		if ($tags_mode !== 'any' && $tags_mode !== 'all') 
 			return(fjgwpp_formatError(__('You must specify a valid tags_mode: "any" or "all"', 'fjgwpp')));
 	}
 
 	if ($action === 'grp') {
-		if (!isset($id) || strlen($id) == 0)
-			return(fjgwpp_formatError(__('You must specify the id of the group, using the "id" attribute', 'fjgwpp')));
+		if (!isset($id) || strlen($id) == 0) 
+			return(fjgwpp_formatError(__('You must specify the id of the group, using the "id" attribute', 'fjgwpp')));	
 	}
 
 	if ($pagination !== 'none' && $pagination !== 'prevnext' && $pagination !== 'numbers') {
-		return(fjgwpp_formatError(__('The pagination attribute can be only "none", "prevnext" or "numbers".', 'fjgwpp')));
+		return(fjgwpp_formatError(__('The pagination attribute can be only "none", "prevnext" or "numbers".', 'fjgwpp')));		
 	}
 
 	if ($last_row !== 'hide' && $last_row !== 'justify' && $last_row !== 'nojustify') {
-		return(fjgwpp_formatError(__('The last_row attribute can be only "hide", "justify" or "nojustify".', 'fjgwpp')));
+		return(fjgwpp_formatError(__('The last_row attribute can be only "hide", "justify" or "nojustify".', 'fjgwpp')));		
 	}
 
 	if ($lightbox !== 'none' && $lightbox !== 'colorbox' && $lightbox !== 'swipebox') {
-		return(fjgwpp_formatError(__('The lightbox attribute can be only "none", "colorbox" or "swipebox".', 'fjgwpp')));
+		return(fjgwpp_formatError(__('The lightbox attribute can be only "none", "colorbox" or "swipebox".', 'fjgwpp')));		
 	}
 
 	//Photo loading----------------
 	$extras = "description, original_format, url_l, url_z";
 	if ($action === 'set') {
 		//Show the photos of a particular photoset
-		$photos = $f->photosets_getPhotos($id, $extras, NULL, $max_num_photos, $page_num, NULL);
+		$photos = $f->photosets_getPhotos($id, $extras, 1, $max_num_photos, $page_num, NULL);	
 		$photos_main_index = 'photoset';
 	} else if ($action === 'gal') {
 		//Show the photos of a particular gallery
@@ -270,7 +269,7 @@ function fjgwpp_createGallery($action, $atts) {
 		$gallery_info = $f->urls_lookupGallery($photos_url[$user_id] . 'galleries/' . $id);
 		if ($f->getErrorCode() != NULL) return(fjgwpp_formatFlickrAPIError($f->getErrorMsg()));
 
-		$photos = $f->galleries_getPhotos($gallery_info['gallery']['id'], $extras, $max_num_photos, $page_num);
+		$photos = $f->galleries_getPhotos($gallery_info['gallery']['id'], $extras, $max_num_photos, $page_num);	
 
 		$photos_main_index = 'photos';
 	} else if ($action === 'tag') {
@@ -279,7 +278,7 @@ function fjgwpp_createGallery($action, $atts) {
 			'tags' => $tags,
 			'tag_mode' => $tags_mode,
 			'extras' => $extras,
-			'per_page' => $max_num_photos,
+			'per_page' => $max_num_photos, 
 			'page' => $page_num
 		));
 		$photos_main_index = 'photos';
@@ -291,9 +290,9 @@ function fjgwpp_createGallery($action, $atts) {
 	} else {
 		//Show the classic photostream
 		$photos = $f->people_getPublicPhotos($user_id, NULL, $extras, $max_num_photos, $page_num);
-
+			
 		//Need the authentication (TODO)
-		//$photos = $f->people_getPhotos($user_id,
+		//$photos = $f->people_getPhotos($user_id, 
 		//	array("privacy_filter" => "1", "extras" => "description", "per_page" => $max_num_photos, "page" => $page_num));
 
 		$photos_main_index = 'photos';
@@ -313,7 +312,7 @@ function fjgwpp_createGallery($action, $atts) {
 		$imgSize = "small_320"; //small (longest side:320)
 	}
 
-	$ris .= '<!-- Flickr Justified Gallery Wordpress Plugin by Miro Mannino -->' . "\n"
+	$ris .= '<!-- Flickr Justified Gallery Wordpress Plugin by Miro Mannino -->' . "\n" 
 		.	'<div id="' . $flickrGalID . '" class="justified-gallery" >';
 
 	$r = 0;
@@ -327,8 +326,8 @@ function fjgwpp_createGallery($action, $atts) {
 		}
 
 		fjgwpp_entryLink($id, $f, $ris, $photo, $photos_pool, $photos_url, $lightbox, $open_originals, $flickrGalID, $action);
-
-		$ris .= '<img alt="' . htmlspecialchars($photo['title'], ENT_QUOTES, 'UTF-8')
+		
+		$ris .= '<img alt="' . htmlspecialchars($photo['title'], ENT_QUOTES, 'UTF-8') 
 				 .	'" src="' . $f->buildPhotoURL($photo, $imgSize)
 				 .	'" data-safe-src="' . $f->buildPhotoURL($photo, $imgSize) . '" />';
 
@@ -338,7 +337,7 @@ function fjgwpp_createGallery($action, $atts) {
 				 .  htmlspecialchars($photo['title'], ENT_QUOTES, 'UTF-8') . '</div>';
 			if ($show_descriptions && isset($photo['description']) && isset($photo['description']['_content'])) {
 				$ris .= '<div class="photo-desc">' . fjgwpp_filterDescription($photo['description']['_content']) . '</div>';
-			}
+			}	
 			$ris .= '</div>';
 		}
 
@@ -346,36 +345,26 @@ function fjgwpp_createGallery($action, $atts) {
 	}
 
 	$ris .= '</div>'
-			 .	'<script type="text/javascript">';
+		 .	'<script type="text/javascript">';
 
-	if ($block_contextmenu) {
-		$ris .= 'function fpDisableContextMenu(imgs) {
-					function absorbEvent_(event) {
-						var e = event || window.event;
-						e.preventDefault && e.preventDefault();
-						e.stopPropagation && e.stopPropagation();
-						e.cancelBubble = true;
-						e.returnValue = false;
-						return false;
-					}
-					imgs.on("contextmenu ontouchstart ontouchmove ontouchend ontouchcancel", absorbEvent_);
-				}';
-		$ris .= "\n";
-	}
-
-	$ris .= 'jQueryFJGWPP(document).ready(function(){
-				jQueryFJGWPP("#' . $flickrGalID . '")';
+	$ris .= 'function fjgwppInit_' . $flickrGalID . '() { 
+				jQuery("#' . $flickrGalID . '")';
 
 	if ($lightbox === 'colorbox') {
 		$ris .= '.on(\'jg.rowflush jg.complete\', function() {
-					jQueryFJGWPP(this).find("> a").colorbox({
+					jQuery(this).find("> a").colorbox({
+						title:function() {
+        					var tit= \'<div class="boxTitle">\'+jQuery(this).find(\'.photo-title\').html()+\'</div>\';
+        					var cap =\'<div class="boxCaption">\'+jQuery(this).find(\'.photo-desc\').html()+\'</div>\';
+        					return tit+cap;
+        				},
 						maxWidth : "85%",
 						maxHeight : "85%",
 						current : "",';
 
 		if ($block_contextmenu) {
 			$ris .= 	'onComplete: function() {
-							fpDisableContextMenu(jQueryFJGWPP("#colorbox .cboxPhoto"));
+							fjgwppDisableContextMenu(jQuery("#colorbox .cboxPhoto"));
 						}';
 		}
 
@@ -383,13 +372,13 @@ function fjgwpp_createGallery($action, $atts) {
 				})';
 	} else if ($lightbox === 'swipebox') {
 		$ris .= '.on(\'jg.complete\', function() {
-					jQueryFJGWPP("#' . $flickrGalID . '").find("> a").swipebox(';
+					jQuery("#' . $flickrGalID . '").find("> a").swipebox(';
 
 		if ($block_contextmenu) {
 			$ris .= '{
-						afterOpen : function () {
+						afterOpen : function () { 
 							setTimeout(function() {
-								fpDisableContextMenu(jQueryFJGWPP("#swipebox-overlay .slide img"));
+								fjgwppDisableContextMenu(jQuery("#swipebox-overlay .slide img"));
 							}, 100);
 						}
 					}';
@@ -402,34 +391,36 @@ function fjgwpp_createGallery($action, $atts) {
 	$ris .= '.justifiedGallery({'
 			 .	'\'lastRow\': \'' . $last_row . '\', '
 			 .	'\'rowHeight\':' . $images_height . ', '
-			 .	'\'fixedHeight\':' . ($fixed_height ? 'true' : 'false') . ', '
+			 .	'\'fixedHeight\':' . ($fixed_height ? 'true' : 'false') . ', '		 
 			 .	'\'captions\':' . ($captions ? 'true' : 'false') . ', '
 			 .	'\'randomize\':' . ($randomize ? 'true' : 'false') . ', '
 			 .	'\'margins\':' . $margins . ', '
-			 .  '\'sizeRangeSuffixes\': {
+			 .  '\'sizeRangeSuffixes\': { 
 			 			\'lt100\':\'_t\', \'lt240\':\'_m\', \'lt320\':\'_n\',
 						\'lt500\':\'\', \'lt640\':\'_z\','
 			 .  		(($use_large_thumbnails) ? '\'lt1024\':\'_b\'' : '\'lt1024\':\'_z\'')
 			 .  '}});';
-
+	
 	if ($block_contextmenu) {
-		$ris .= 'fpDisableContextMenu(jQueryFJGWPP("#' . $flickrGalID . '").find("> a"));';
+		$ris .= 'fpDisableContextMenu(jQuery("#' . $flickrGalID . '").find("> a"));';
 	}
-
-	$ris .= ' });'
-			 .	'</script>';
+	
+	$ris .= '}'
+		.	'if (typeof fjgwpp_galleriesInit_functions === "undefined") fjgwpp_galleriesInit_functions = [];'
+		.	'fjgwpp_galleriesInit_functions.push(fjgwppInit_' . $flickrGalID . ');'
+		.	'</script>';
 
 	//Navigation---------------------
 	if($pagination !== 'none') {
-
+		
 		$num_pages = $photos[$photos_main_index]['pages'];
 
 		if ($num_pages > 1) {
 
 			$permalink = get_permalink();
-
+		
 			if ($pagination === 'numbers') {
-
+					
 				$ris .= '<div class="page-links">'
 						 .	'<span class="page-links-title">Pages:</span> ';
 
@@ -437,7 +428,7 @@ function fjgwpp_createGallery($action, $atts) {
 				$high_num = $page_num + ceil($maximum_pages_nums/2) - 1;
 
 				if ($low_num < 1) {
-					$high_num += 1 - $low_num;
+					$high_num += 1 - $low_num; 
 					$low_num = 1;
 				}
 
@@ -463,21 +454,21 @@ function fjgwpp_createGallery($action, $atts) {
 				$ris .= '</div>';
 
 			} else if ($pagination === 'prevnext') {
-
+					
 				$ris .= '<div>';
 
 				if ($page_num < $num_pages) {
 					$ris .= '<div class="nav-previous">'
-					 .	'<a href="' . add_query_arg('page', ((int)$page_num + 1), $permalink) . '">'
+					 .	'<a href="' . add_query_arg('page', ((int)$page_num + 1), $permalink) . '">' 
 					 . __('<span class="meta-nav">&larr;</span> Older photos', 'fjgwpp') . '</a>'
 					 .	'</div>';
 				}
 
 				if ($page_num > 1) { //a link to the newer photos
 					$ris .= '<div class="nav-next">'
-					 .	'<a href="' . add_query_arg('page', ((int)$page_num - 1), $permalink) . '">'
+					 .	'<a href="' . add_query_arg('page', ((int)$page_num - 1), $permalink) . '">' 
 					 . __('Newer photos <span class="meta-nav">&rarr;</span>', 'fjgwpp') . '</a>'
-					 .	'</div>';
+					 .	'</div>';	
 				}
 
 				$ris .= '</div>';
@@ -517,7 +508,7 @@ function fjgwpp_entryLink($id, $f, &$ris, $photo, $photos_pool, $photos_url, $li
 			}
 		}
 
-		$ris .= '" rel="' . $flickrGalID . '" title="' . $photo['title'] . '">';
+		$ris .= '" rel="' . $flickrGalID . '" title="' . $photo['title'] . '">';	
 	} else {
 
 		//If it is a gallery the photo has an owner, else is the photoset owner (or the photostream owner)
@@ -550,13 +541,13 @@ add_shortcode('flickrps', 'fjgwpp_flickr_photostream'); //legacy tag
 
 //[flickr_set id="..." ...]
 function fjgwpp_flickr_set($atts, $content = null) {
-	return fjgwpp_createGallery('set', $atts);
+	return fjgwpp_createGallery('set', $atts);	
 }
 add_shortcode('flickr_set', 'fjgwpp_flickr_set');
 
 //[flickr_gallery user_id="..." id="..." ...]
 function fjgwpp_flickr_gallery($atts, $content = null) {
-	return fjgwpp_createGallery('gal', $atts);
+	return fjgwpp_createGallery('gal', $atts);		
 }
 add_shortcode('flickr_gallery', 'fjgwpp_flickr_gallery');
 

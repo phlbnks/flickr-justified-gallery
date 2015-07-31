@@ -115,6 +115,13 @@ and filtering the class `jg-img`.
 
 == Changelog ==
 
+= 3.4.0 =
+
+* Scripts on bottom (for performance and compatibility)
+* Settings help update
+* Justified Gallery 3.6.0
+* Fixed XSS security vulnerability
+
 = 3.3.6 =
 
 * Fixed the provide Colorbox/Swipbox bugs in settings
