@@ -147,9 +147,9 @@ function fjgwpp_settings() {
 		//Check the API Key
 		$fjgwpp_APIKey_saved = trim($_POST["fjgwpp_APIKey"]);
 		//Check the API Secret
-		$fjgwpp_APISecret_saved = trim($_POST["fjgwpp_APISecret"]);
+		$fjgwpp_APISecret_saved = trim(htmlentities($_POST["fjgwpp_APISecret"], ENT_QUOTES));
 		//Check the API Token
-		$fjgwpp_APIToken_saved = trim($_POST["fjgwpp_APIToken"]);
+		$fjgwpp_APIToken_saved = trim(htmlentities($_POST["fjgwpp_APIToken"], ENT_QUOTES));
 		if($fjgwpp_APISecret_saved && $fjgwpp_APIToken_saved) { // test fully authenticated call
 			$f = new phpFlickr($fjgwpp_APIKey_saved,$fjgwpp_APISecret_saved);
 			$f->setToken($fjgwpp_APIToken_saved);
