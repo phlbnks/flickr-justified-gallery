@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flickr Photostream\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-14 22:27+0100\n"
-"PO-Revision-Date: 2015-01-14 22:32+0100\n"
+"POT-Creation-Date: 2015-07-23 23:40+0100\n"
+"PO-Revision-Date: 2015-07-23 23:45+0100\n"
 "Last-Translator: Miro Mannino <miro.mannino@gmail.com>\n"
 "Language-Team: Miro Mannino <miro.mannino@gmail.com>\n"
 "Language: it_IT\n"
@@ -32,26 +32,27 @@ msgstr ""
 msgid "The 'Photos per page' field must have a value greater than 0"
 msgstr "Il campo 'Foto per pagina' deve avere un valore maggiore di 0"
 
-#: ../flickr-justified-gallery-settings.php:206
+#: ../flickr-justified-gallery-settings.php:212
 msgid ""
-"The 'Margins' field must have a value greater than 0, and not greater than 30"
+"The 'Margins' field must have a value greater or equal than 0, and not "
+"greater than 30"
 msgstr ""
-"Il campo 'Margini tra le immagini' deve avere un valore maggiore di 0, e non "
-"più grande di 30"
+"Il margine deve essere un valore compreso o uguale a 0, e non più grande di "
+"30"
 
-#: ../flickr-justified-gallery-settings.php:229
+#: ../flickr-justified-gallery-settings.php:235
 msgid "Settings updated."
 msgstr "Opzioni salvate"
 
-#: ../flickr-justified-gallery-settings.php:235
+#: ../flickr-justified-gallery-settings.php:241
 msgid "Invalid values, the settings have not been updated"
 msgstr "Valori non validi, le opzioni non sono state salvate"
 
-#: ../flickr-justified-gallery-settings.php:255
+#: ../flickr-justified-gallery-settings.php:261
 msgid "Help"
 msgstr "Aiuto"
 
-#: ../flickr-justified-gallery-settings.php:258
+#: ../flickr-justified-gallery-settings.php:264
 msgid ""
 "To display the default user's photostream, create a page and simply write "
 "the following shortcode where you want to display the gallery."
@@ -60,7 +61,7 @@ msgstr ""
 "inserite semplicemente il seguente shortcode dove volete mostrare la "
 "galleria."
 
-#: ../flickr-justified-gallery-settings.php:264
+#: ../flickr-justified-gallery-settings.php:270
 msgid ""
 "However, you can also use the attributes to have settings that are different "
 "than the defaults. For example:"
@@ -68,7 +69,7 @@ msgstr ""
 "Tuttavia, puoi utilizzare gli attributi per avere impostazioni che sono "
 "diverse rispetto a quelle di default. Per esempio:"
 
-#: ../flickr-justified-gallery-settings.php:267
+#: ../flickr-justified-gallery-settings.php:273
 msgid ""
 "displays the latest 50 photos of the default user photostream, without any "
 "page navigation. (the other settings are the defaults)"
@@ -77,11 +78,11 @@ msgstr ""
 "nessuna navigazione tra pagine. (le altre impostazioni sono quelle di "
 "default)"
 
-#: ../flickr-justified-gallery-settings.php:271
+#: ../flickr-justified-gallery-settings.php:277
 msgid "You can also configure it to show other photostreams. For example:"
 msgstr "Puoi anche configurarlo per mostrare altri photostream. Per esempio:"
 
-#: ../flickr-justified-gallery-settings.php:274
+#: ../flickr-justified-gallery-settings.php:280
 msgid ""
 "displays the photostream of the specified user, no matter what is the "
 "default user ID in the settings. Remember that you can use <a href=\"http://"
@@ -93,35 +94,35 @@ msgstr ""
 "utilizzare <a href=\"http://idgettr.com/\" target=\"_blank\">idgettr</a> per "
 "sapere l'<code>user_id</code>."
 
-#: ../flickr-justified-gallery-settings.php:279
+#: ../flickr-justified-gallery-settings.php:285
 msgid "Sets"
 msgstr "Sets"
 
-#: ../flickr-justified-gallery-settings.php:281
+#: ../flickr-justified-gallery-settings.php:287
 msgid ""
-"To show the photos of a particular photo set, you need to know its "
-"<code>photoset_id</code>."
+"To show the photos of a particular photo set (also called \"album\"), you "
+"need to know its <code>photoset_id</code>."
 msgstr ""
-"Per mostrare un particolare photoset bisogna conoscere il suo "
-"<code>photoset_id</code>."
+"Per mostrare le foto di un particolare set (chiamato anche \"album\"), hai "
+"bisogno di conoscere il suo <code>photoset_it</code>."
 
-#: ../flickr-justified-gallery-settings.php:282
+#: ../flickr-justified-gallery-settings.php:288
 msgid ""
 "For example, the <code>photoset_id</code> of the photo set located in the "
 "URL:"
 msgstr ""
 "Per esempio, il <code>photoset_id</code> del photoset accessibile dall'URL:"
 
-#: ../flickr-justified-gallery-settings.php:284
-#: ../flickr-justified-gallery-settings.php:300
+#: ../flickr-justified-gallery-settings.php:290
+#: ../flickr-justified-gallery-settings.php:306
 msgid "is: "
 msgstr "è:"
 
-#: ../flickr-justified-gallery-settings.php:286
+#: ../flickr-justified-gallery-settings.php:292
 msgid "You can see that it is always the number after the word '/sets/'."
 msgstr "Nota che è sempre il numero che viene dopo la parola '/sets/'."
 
-#: ../flickr-justified-gallery-settings.php:288
+#: ../flickr-justified-gallery-settings.php:294
 msgid ""
 "To show a particular photoset, you need to use the <code>flickr_set</code> "
 "shortcode, and specify the <code>photoset_id</code> with the attribute "
@@ -131,11 +132,11 @@ msgstr ""
 "<code>flickr_set</code>, e specificare il <code>photoset_id</code> "
 "utilizzando l'attributo <code>id</code>. Per esempio:"
 
-#: ../flickr-justified-gallery-settings.php:295
+#: ../flickr-justified-gallery-settings.php:301
 msgid "Galleries"
 msgstr "Gallerie"
 
-#: ../flickr-justified-gallery-settings.php:297
+#: ../flickr-justified-gallery-settings.php:303
 msgid ""
 "To show the photos of a particular gallery, you need to know the "
 "<code>user_id</code> of the user that owns it, and its <code>id</code>."
@@ -144,15 +145,15 @@ msgstr ""
 "l'<code>user_id</code> dell'utente che la possiede, e l'<code>id</code> "
 "della galleria."
 
-#: ../flickr-justified-gallery-settings.php:298
+#: ../flickr-justified-gallery-settings.php:304
 msgid "For example, the <code>id</code> of the gallery located in the URL:"
 msgstr "Per esempio, l'<code>id</code> della galleria è posizionato nell'URL:"
 
-#: ../flickr-justified-gallery-settings.php:302
+#: ../flickr-justified-gallery-settings.php:308
 msgid "You can see that it is always the number after the word '/galleries/'."
 msgstr "Nota che è sempre il numero che viene dopo la parola '/galleries/'."
 
-#: ../flickr-justified-gallery-settings.php:304
+#: ../flickr-justified-gallery-settings.php:310
 msgid ""
 "To show a particular gallery, you need to use the <code>flickr_gallery</"
 "code> shortcode, and specify the <code>user_id</code> with the attribute "
@@ -164,7 +165,7 @@ msgstr ""
 "utilizzando l'attributo <code>user_id</code>, e il <code>gallery_id</code> "
 "utilizzando l'attributo <code>id</code>. Per esempio:"
 
-#: ../flickr-justified-gallery-settings.php:309
+#: ../flickr-justified-gallery-settings.php:315
 msgid ""
 "Remember that, if the gallery is owned by the default user (specified in the "
 "settings), you don't need the <code>user_id</code> attribute in the "
@@ -174,11 +175,11 @@ msgstr ""
 "nelle impostazioni), puoi anche non utilizzare l'attributo <code>user_id</"
 "code> nello shortcode."
 
-#: ../flickr-justified-gallery-settings.php:312
+#: ../flickr-justified-gallery-settings.php:318
 msgid "Group pools"
 msgstr "Group Pool"
 
-#: ../flickr-justified-gallery-settings.php:314
+#: ../flickr-justified-gallery-settings.php:320
 msgid ""
 "To show the photos of a particular group pool, you need to know the group "
 "id, that you can retrieve using <a href=\"http://idgettr.com/\" target="
@@ -188,7 +189,7 @@ msgstr ""
 "l'id del gruppo, che puoi recuperare utilizzando <a href=\"http://idgettr."
 "com/\" target=\"_blank\">idgettr</a>."
 
-#: ../flickr-justified-gallery-settings.php:316
+#: ../flickr-justified-gallery-settings.php:322
 msgid ""
 "To show a particular group pool, you need to use the <code>flickr_group</"
 "code> shortcode, and specify the group id with the attribute <code>id</"
@@ -198,11 +199,11 @@ msgstr ""
 "shortcode <code>flickr_group</code>, e specificare l'id del gruppo con "
 "l'attributo <code>id</code>. Per esempio:"
 
-#: ../flickr-justified-gallery-settings.php:323
+#: ../flickr-justified-gallery-settings.php:329
 msgid "Tags"
 msgstr "Tags"
 
-#: ../flickr-justified-gallery-settings.php:325
+#: ../flickr-justified-gallery-settings.php:331
 msgid ""
 "To show the photos that have some particular tags, you need to use the "
 "<code>flickr_tags</code> shortcode, and specify the <code>user_id</code> and "
@@ -214,7 +215,7 @@ msgstr ""
 "tag con l'attributo <code>tags</code>, come una lista di parole separata da "
 "virgole. Per esempio:"
 
-#: ../flickr-justified-gallery-settings.php:328
+#: ../flickr-justified-gallery-settings.php:334
 msgid ""
 "Displays photos with one or more of the tags listed (the list is viewed as "
 "an OR combination, that is the default behavior)."
@@ -222,7 +223,7 @@ msgstr ""
 "Mostra le foto che hanno uno o più tag tra quelli listati (la lista è vista "
 "come una combinazione in OR, che è il comportamento predefinito)."
 
-#: ../flickr-justified-gallery-settings.php:331
+#: ../flickr-justified-gallery-settings.php:337
 msgid ""
 "You can also exclude results that match a term by prepending it with a "
 "<code>-</code> character."
@@ -230,7 +231,7 @@ msgstr ""
 "Puoi anche escludere i risultati che corrispondono ad un termine aggiungendo "
 "all'inizio del termine il carattere <code>-</code>."
 
-#: ../flickr-justified-gallery-settings.php:332
+#: ../flickr-justified-gallery-settings.php:338
 msgid ""
 "Then, you can choose to use the list as a OR combination of tags (to return "
 "photos that have <b>any</b> tag), or an AND combination (to return photos "
@@ -240,7 +241,7 @@ msgstr ""
 "(specificando \"any\"), oppure una combinazione in AND (specificando \"all"
 "\")."
 
-#: ../flickr-justified-gallery-settings.php:333
+#: ../flickr-justified-gallery-settings.php:339
 msgid ""
 "To do this, you need to use the <code>tags_mode</code>, specifying \"any\" "
 "or \"all\". For example:"
@@ -248,7 +249,7 @@ msgstr ""
 "Per fare ciò, devi utilizzare <code>tags_mode</code>, specificando \"any\" "
 "oppure \"all\". Per esempio:"
 
-#: ../flickr-justified-gallery-settings.php:336
+#: ../flickr-justified-gallery-settings.php:342
 msgid ""
 "Displays photos with all the tags listed (the list is viewed as an AND "
 "combination)."
@@ -256,7 +257,7 @@ msgstr ""
 "Mostra le foto che hanno tutti i tag listati (la lista è vista come una "
 "combinazione in AND)."
 
-#: ../flickr-justified-gallery-settings.php:339
+#: ../flickr-justified-gallery-settings.php:345
 msgid ""
 "Remember that, if the photo that you want to display is owned by the default "
 "user (specified in the settings), you don't need the <code>user_id</code> "
@@ -266,86 +267,86 @@ msgstr ""
 "default (specificato nelle impostazioni), puoi anche non utilizzare "
 "l'attributo <code>user_id</code> nello shortcode."
 
-#: ../flickr-justified-gallery-settings.php:347
+#: ../flickr-justified-gallery-settings.php:353
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: ../flickr-justified-gallery-settings.php:351
+#: ../flickr-justified-gallery-settings.php:357
 msgid "Global Settings"
 msgstr "Impostazioni Globali"
 
-#: ../flickr-justified-gallery-settings.php:356
+#: ../flickr-justified-gallery-settings.php:362
 msgid "Flickr API Key"
 msgstr "Chiave Flickr API"
 
-#: ../flickr-justified-gallery-settings.php:364
+#: ../flickr-justified-gallery-settings.php:370
 msgid "Get your Flickr API Key from "
 msgstr "Ottieni la tua Flickr API Key da "
 
-#: ../flickr-justified-gallery-settings.php:365
+#: ../flickr-justified-gallery-settings.php:371
 msgid "You can't use an attribute to change this setting"
 msgstr "Non puoi utilizzare un attributo per modificare questa impostazione"
 
-#: ../flickr-justified-gallery-settings.php:371
+#: ../flickr-justified-gallery-settings.php:377
 msgid "Default Settings"
 msgstr "Impostazioni di Default"
 
-#: ../flickr-justified-gallery-settings.php:375
+#: ../flickr-justified-gallery-settings.php:381
 msgid "User ID"
 msgstr "ID Utente"
 
-#: ../flickr-justified-gallery-settings.php:382
+#: ../flickr-justified-gallery-settings.php:388
 msgid "Get the User ID from "
 msgstr "Ottieni l'ID Utente da "
 
-#: ../flickr-justified-gallery-settings.php:383
-#: ../flickr-justified-gallery-settings.php:394
-#: ../flickr-justified-gallery-settings.php:405
-#: ../flickr-justified-gallery-settings.php:418
-#: ../flickr-justified-gallery-settings.php:432
-#: ../flickr-justified-gallery-settings.php:446
-#: ../flickr-justified-gallery-settings.php:459
-#: ../flickr-justified-gallery-settings.php:498
-#: ../flickr-justified-gallery-settings.php:512
-#: ../flickr-justified-gallery-settings.php:526
-#: ../flickr-justified-gallery-settings.php:538
-#: ../flickr-justified-gallery-settings.php:552
-#: ../flickr-justified-gallery-settings.php:566
+#: ../flickr-justified-gallery-settings.php:389
+#: ../flickr-justified-gallery-settings.php:400
+#: ../flickr-justified-gallery-settings.php:411
+#: ../flickr-justified-gallery-settings.php:424
+#: ../flickr-justified-gallery-settings.php:438
+#: ../flickr-justified-gallery-settings.php:452
+#: ../flickr-justified-gallery-settings.php:465
+#: ../flickr-justified-gallery-settings.php:504
+#: ../flickr-justified-gallery-settings.php:519
+#: ../flickr-justified-gallery-settings.php:533
+#: ../flickr-justified-gallery-settings.php:545
+#: ../flickr-justified-gallery-settings.php:559
+#: ../flickr-justified-gallery-settings.php:573
 msgid "You can use the <code>"
 msgstr "Puoi utilizzare l'attributo <code>"
 
-#: ../flickr-justified-gallery-settings.php:383
-#: ../flickr-justified-gallery-settings.php:394
-#: ../flickr-justified-gallery-settings.php:405
-#: ../flickr-justified-gallery-settings.php:538
+#: ../flickr-justified-gallery-settings.php:389
+#: ../flickr-justified-gallery-settings.php:400
+#: ../flickr-justified-gallery-settings.php:411
+#: ../flickr-justified-gallery-settings.php:545
 msgid "</code> attribute to change this default value"
 msgstr "</code> per cambiare il valore di default"
 
-#: ../flickr-justified-gallery-settings.php:388
+#: ../flickr-justified-gallery-settings.php:394
 msgid "Images Height (in px)"
 msgstr "Altezza Immagini (in px)"
 
-#: ../flickr-justified-gallery-settings.php:399
+#: ../flickr-justified-gallery-settings.php:405
 msgid "Maximum number of photos per page"
 msgstr "Massimo numero di foto per pagina"
 
-#: ../flickr-justified-gallery-settings.php:410
+#: ../flickr-justified-gallery-settings.php:416
 msgid "Last Row"
 msgstr "Ultima riga"
 
-#: ../flickr-justified-gallery-settings.php:414
+#: ../flickr-justified-gallery-settings.php:420
 msgid "Justify"
 msgstr "Giustifica"
 
-#: ../flickr-justified-gallery-settings.php:415
+#: ../flickr-justified-gallery-settings.php:421
 msgid "No justify"
 msgstr "Non giustificare"
 
-#: ../flickr-justified-gallery-settings.php:416
+#: ../flickr-justified-gallery-settings.php:422
 msgid "Hide if it cannot be justified"
 msgstr "Nascondi se non può essere giustificata"
 
-#: ../flickr-justified-gallery-settings.php:418
+#: ../flickr-justified-gallery-settings.php:424
 msgid ""
 "</code> attribute to change this default value (with the value "
 "<code>justify</code>, <code>nojustify</code> or <code>hide</code>)"
@@ -353,23 +354,23 @@ msgstr ""
 "</code> per cambiare il valore di default (con i valori <code>justify</"
 "code>, <code>nojustify</code> o <code>hide</code>)."
 
-#: ../flickr-justified-gallery-settings.php:423
+#: ../flickr-justified-gallery-settings.php:429
 msgid "Fixed Height"
 msgstr "Altezza fissata"
 
-#: ../flickr-justified-gallery-settings.php:431
+#: ../flickr-justified-gallery-settings.php:437
 msgid ""
 "If enabled, each row has the same height, but the images will be cut more."
 msgstr ""
 "Se abilitato, ogni riga avrà la stessa altezza, quindi le immagini potranno "
 "essere maggiormente tagliate."
 
-#: ../flickr-justified-gallery-settings.php:432
-#: ../flickr-justified-gallery-settings.php:498
-#: ../flickr-justified-gallery-settings.php:512
-#: ../flickr-justified-gallery-settings.php:526
-#: ../flickr-justified-gallery-settings.php:552
-#: ../flickr-justified-gallery-settings.php:566
+#: ../flickr-justified-gallery-settings.php:438
+#: ../flickr-justified-gallery-settings.php:504
+#: ../flickr-justified-gallery-settings.php:519
+#: ../flickr-justified-gallery-settings.php:533
+#: ../flickr-justified-gallery-settings.php:559
+#: ../flickr-justified-gallery-settings.php:573
 msgid ""
 "</code> attribute to change this default value (with the value <code>true</"
 "code> or <code>false</code>)"
@@ -377,24 +378,24 @@ msgstr ""
 "</code> per cambiare il valore di default (con i valori <code>true</code> o "
 "<code>false</code>)."
 
-#: ../flickr-justified-gallery-settings.php:437
+#: ../flickr-justified-gallery-settings.php:443
 msgid "Pagination"
 msgstr "Paginazione"
 
-#: ../flickr-justified-gallery-settings.php:441
-#: ../flickr-justified-gallery-settings.php:455
+#: ../flickr-justified-gallery-settings.php:447
+#: ../flickr-justified-gallery-settings.php:461
 msgid "None"
 msgstr "Nessuna"
 
-#: ../flickr-justified-gallery-settings.php:442
+#: ../flickr-justified-gallery-settings.php:448
 msgid "Previous and Next"
 msgstr "Precedente e successiva"
 
-#: ../flickr-justified-gallery-settings.php:443
+#: ../flickr-justified-gallery-settings.php:449
 msgid "Page Numbers"
 msgstr "Numero pagine"
 
-#: ../flickr-justified-gallery-settings.php:445
+#: ../flickr-justified-gallery-settings.php:451
 msgid ""
 "If enabled, navigation buttons will be shown, and you can see the older "
 "photos.<br/><i>Use only one instance per page with this settings enabled!</i>"
@@ -403,7 +404,7 @@ msgstr ""
 "visualizzare le pagine delle foto meno recenti.<br/><i>Per ogni pagina, "
 "utilizza solo un istanza con questa opzione abilitata!</i>"
 
-#: ../flickr-justified-gallery-settings.php:446
+#: ../flickr-justified-gallery-settings.php:452
 msgid ""
 "</code> attribute to change this default value (with the value <code>none</"
 "code>, <code>prevnext</code> or <code>numbers</code>)"
@@ -411,11 +412,11 @@ msgstr ""
 "</code> per cambiare il valore di default (con i valori <code>none</code>, "
 "<code>prevnext</code> o <code>numbers</code>)."
 
-#: ../flickr-justified-gallery-settings.php:451
+#: ../flickr-justified-gallery-settings.php:457
 msgid "Lightbox"
 msgstr "Lightbox"
 
-#: ../flickr-justified-gallery-settings.php:459
+#: ../flickr-justified-gallery-settings.php:465
 msgid ""
 "</code> attribute to change this default value (with the value <code>none</"
 "code>, <code>colorbox</code> or <code>swipebox</code>)."
@@ -423,15 +424,15 @@ msgstr ""
 "</code> per cambiare il valore di default (con i valori <code>none</code>, "
 "<code>colorbox</code> or <code>swipebox</code>)."
 
-#: ../flickr-justified-gallery-settings.php:468
+#: ../flickr-justified-gallery-settings.php:474
 msgid "Provide Colorbox"
 msgstr "Fornisci Colorbox"
 
-#: ../flickr-justified-gallery-settings.php:477
+#: ../flickr-justified-gallery-settings.php:483
 msgid "Provide Swipebox"
 msgstr "Fornisci Swipebox"
 
-#: ../flickr-justified-gallery-settings.php:480
+#: ../flickr-justified-gallery-settings.php:486
 msgid ""
 "Decide to include the lightbox libraries. Without them checked, make sure "
 "that you have installed the chosen lightboxes with a plugin (e.g. "
@@ -439,11 +440,11 @@ msgstr ""
 "Decidi se includere le librerie per il lightbox. Senza questi selezionati, "
 "assicurati di avere installato il lightbox scelto con un plugin (e.g. "
 
-#: ../flickr-justified-gallery-settings.php:489
+#: ../flickr-justified-gallery-settings.php:495
 msgid "Captions"
 msgstr "Etichette"
 
-#: ../flickr-justified-gallery-settings.php:497
+#: ../flickr-justified-gallery-settings.php:503
 msgid ""
 "If enabled, the title of the photo will be shown over the image when the "
 "mouse is over. Note: <i>captions, with small images, become aesthetically "
@@ -453,38 +454,40 @@ msgstr ""
 "mouse sarà sopra di essa. Nota: <i>quando l'altezza delle immagini è troppo "
 "piccola, le etichette diventano esteticamente sgradevoli</i>."
 
-#: ../flickr-justified-gallery-settings.php:503
+#: ../flickr-justified-gallery-settings.php:509
 msgid "Show descriptions"
 msgstr "Mostra descrizioni"
 
-#: ../flickr-justified-gallery-settings.php:511
-msgid ""
-"If enabled, the captions will also show the descriptions of the photos. "
-"Note: <i>descriptions, with small images, become aesthetically unpleasing</"
-"i>."
-msgstr ""
-"Se abilitato, le etichette delle foto mostreranno anche la loro descrizione. "
-"Nota: <i>le descrizioni, con immagini molto piccole, potrebbero diventare "
-"visivamente sgradevoli</i>."
-
 #: ../flickr-justified-gallery-settings.php:517
+msgid ""
+"If the captions are enabled, the descriptions will be shown inside the "
+"thumbnail captions. Note: <i>the descriptions is not shown inside the "
+"lightbox, because Colorbox and Lightbox\n"
+"\t\t\t\t\t\t\t\t\tdon't support this feature</i>."
+msgstr ""
+"Se le etichette sono abilitate, la descrizione viene mostrata all'interno "
+"delle etichette delle miniature. Nota: <i>la descrizione non viene mostrata "
+"all'interno del lightbox, poiché Colorbox e Lightbox non supportano questa "
+"possibilità</i>."
+
+#: ../flickr-justified-gallery-settings.php:524
 msgid "Randomize order"
 msgstr "Ordine casuale"
 
-#: ../flickr-justified-gallery-settings.php:525
+#: ../flickr-justified-gallery-settings.php:532
 msgid "If enabled, the photos of the same page are randomized."
 msgstr ""
 "Se abilitato, le foto della stessa pagina saranno disposte casualmente."
 
-#: ../flickr-justified-gallery-settings.php:531
+#: ../flickr-justified-gallery-settings.php:538
 msgid "Margin between the images"
 msgstr "Margine tra le immagini"
 
-#: ../flickr-justified-gallery-settings.php:543
+#: ../flickr-justified-gallery-settings.php:550
 msgid "Open original images"
 msgstr "Apri immagini originali"
 
-#: ../flickr-justified-gallery-settings.php:551
+#: ../flickr-justified-gallery-settings.php:558
 msgid ""
 "If enabled, the lightbox will show the original images if they are "
 "available. Consider to leave this option off if your original images are "
@@ -494,11 +497,11 @@ msgstr ""
 "Considera di togliere questa opzione se le tue immagini originali sono molto "
 "grandi."
 
-#: ../flickr-justified-gallery-settings.php:557
+#: ../flickr-justified-gallery-settings.php:564
 msgid "Block right click"
 msgstr "Blocca tasto destro"
 
-#: ../flickr-justified-gallery-settings.php:565
+#: ../flickr-justified-gallery-settings.php:572
 msgid ""
 "If enabled, the context menu will be blocked, so for the user is more "
 "difficult to save the images"
@@ -506,11 +509,11 @@ msgstr ""
 "Se abilitato, il menu contestuale verrà bloccato, in modo che per gli utenti "
 "venga più difficile salvare le immagini"
 
-#: ../flickr-justified-gallery-settings.php:571
+#: ../flickr-justified-gallery-settings.php:578
 msgid "Flickr API Wrapper Version"
 msgstr "Flickr API Wrapper"
 
-#: ../flickr-justified-gallery-settings.php:578
+#: ../flickr-justified-gallery-settings.php:585
 msgid ""
 "If you have some problems to communicate with the Flickr's API could be "
 "useful to change the current version of phpFlickr"
@@ -518,15 +521,15 @@ msgstr ""
 "In caso di problemi di comunicazione con le API di Flickr, potrebbe essere "
 "utile cambiare la versione corrente di phpFlickr."
 
-#: ../flickr-justified-gallery-settings.php:585
+#: ../flickr-justified-gallery-settings.php:592
 msgid "Save Changes"
 msgstr "Salva le modifiche"
 
-#: ../flickr-justified-gallery-settings.php:592
+#: ../flickr-justified-gallery-settings.php:599
 msgid "Help the project"
 msgstr "Aiuta il progetto"
 
-#: ../flickr-justified-gallery-settings.php:595
+#: ../flickr-justified-gallery-settings.php:602
 msgid ""
 "Help the project to grow. Donate something, or simply <a href=\"http://"
 "wordpress.org/plugins/flickr-justified-gallery\" target=\"_blank\">rate the "
@@ -536,81 +539,104 @@ msgstr ""
 "\"http://wordpress.org/plugins/flickr-justified-gallery\" target=\"_blank"
 "\">recensisci il plugin su Wordpress</a>."
 
-#: ../flickr-justified-gallery.php:58
+#: ../flickr-justified-gallery.php:60
 msgid ""
 "Flickr Justified Gallery can't be activated: the cache Folder is not writable"
 msgstr ""
 "Flickr Justified Gallery non può essere attivato: la cartella della cache "
 "non è scrivibile"
 
-#: ../flickr-justified-gallery.php:106
+#: ../flickr-justified-gallery.php:115
 msgid "Flickr Justified Gallery Plugin error"
 msgstr "Errore Flickr Justified Gallery"
 
-#: ../flickr-justified-gallery.php:112
+#: ../flickr-justified-gallery.php:121
 msgid "Flickr API error"
 msgstr "Errore Flickr API"
 
-#: ../flickr-justified-gallery.php:206
+#: ../flickr-justified-gallery.php:221
 msgid ""
 "You must specify the user_id for this action, using the \"user_id\" attribute"
 msgstr ""
 "Bisogna specificare l'user_id per quest'azione, utilizzando l'attributo "
 "\"user_id\""
 
-#: ../flickr-justified-gallery.php:211
+#: ../flickr-justified-gallery.php:226
 msgid "You must specify the id of the gallery, using the \"id\" attribute"
 msgstr ""
 "Bisogna specificare l'id della galleria, utilizzando l'attributo \"id\""
 
-#: ../flickr-justified-gallery.php:216
+#: ../flickr-justified-gallery.php:231
 msgid "You must specify the id of the set, using the \"id\" attribute"
 msgstr "Devi specificare l'id del set, utilizzando l'attributo \"id\"."
 
-#: ../flickr-justified-gallery.php:221
+#: ../flickr-justified-gallery.php:236
 msgid "You must specify the tags using the \"tags\" attribute"
 msgstr "Bisogna specificare i tag utilizzando l'attributo \"tags\""
 
-#: ../flickr-justified-gallery.php:223
+#: ../flickr-justified-gallery.php:238
 msgid "You must specify a valid tags_mode: \"any\" or \"all\""
 msgstr "Bisogna specificare un tags_mode valito: \"any\" oppure \"all\""
 
-#: ../flickr-justified-gallery.php:228
+#: ../flickr-justified-gallery.php:243
 msgid "You must specify the id of the group, using the \"id\" attribute"
 msgstr "Bisogna specificare l'id del gruppo, utilizzando l'attributo \"id\""
 
-#: ../flickr-justified-gallery.php:232
+#: ../flickr-justified-gallery.php:247
 msgid ""
 "The pagination attribute can be only \"none\", \"prevnext\" or \"numbers\"."
 msgstr ""
 "L'attributo per la paginazione può essere solamente \"none\", \"prevnext\" "
 "or \"numbers\"."
 
-#: ../flickr-justified-gallery.php:236
+#: ../flickr-justified-gallery.php:251
 msgid ""
 "The last_row attribute can be only \"hide\", \"justify\" or \"nojustify\"."
 msgstr ""
 "L'attributo last_row può essere solamente \"hide\", \"justify\" o \"nojustify"
 "\"."
 
-#: ../flickr-justified-gallery.php:240
+#: ../flickr-justified-gallery.php:255
 msgid ""
 "The lightbox attribute can be only \"none\", \"colorbox\" or \"swipebox\"."
 msgstr ""
 "L'attributo per il lightbox può essere solamente \"none\", \"colorbox\" "
 "oppure \"swipebox\"."
 
-#: ../flickr-justified-gallery.php:289
+#: ../flickr-justified-gallery.php:304
 msgid "No photos"
 msgstr "Nessuna foto"
 
-#: ../flickr-justified-gallery.php:468
+#: ../flickr-justified-gallery.php:463
 msgid "<span class=\"meta-nav\">&larr;</span> Older photos"
 msgstr "<span class=\"meta-nav\">&larr;</span> Foto meno recenti"
 
-#: ../flickr-justified-gallery.php:475
+#: ../flickr-justified-gallery.php:470
 msgid "Newer photos <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Foto più recenti <span class=\"meta-nav\">&rarr;</span>"
+
+#~ msgid ""
+#~ "The 'Margins' field must have a value greater than 0, and not greater "
+#~ "than 30"
+#~ msgstr ""
+#~ "Il campo 'Margini tra le immagini' deve avere un valore maggiore di 0, e "
+#~ "non più grande di 30"
+
+#~ msgid ""
+#~ "To show the photos of a particular photo set, you need to know its "
+#~ "<code>photoset_id</code>."
+#~ msgstr ""
+#~ "Per mostrare un particolare photoset bisogna conoscere il suo "
+#~ "<code>photoset_id</code>."
+
+#~ msgid ""
+#~ "If enabled, the captions will also show the descriptions of the photos. "
+#~ "Note: <i>descriptions, with small images, become aesthetically "
+#~ "unpleasing</i>."
+#~ msgstr ""
+#~ "Se abilitato, le etichette delle foto mostreranno anche la loro "
+#~ "descrizione. Nota: <i>le descrizioni, con immagini molto piccole, "
+#~ "potrebbero diventare visivamente sgradevoli</i>."
 
 #~ msgid ""
 #~ "To show the photos of a particular gallery, you need to know the "

@@ -4,6 +4,22 @@ Author: Miro Mannino
 Author URI: http://miromannino.com
 */
 
-/* We save the instance of jQuery in case there are other themes or plugins that import again
-it in a non-standard way */
-var jQueryFJGWPP = jQuery;
+function fjgwppDisableContextMenu(imgs) {
+	function absorbEvent_(event) {
+		var e = event || window.event;
+		e.preventDefault && e.preventDefault();
+		e.stopPropagation && e.stopPropagation();
+		e.cancelBubble = true;
+		e.returnValue = false;
+		return false;
+	}
+	imgs.on("contextmenu ontouchstart ontouchmove ontouchend ontouchcancel", absorbEvent_);
+}
+
+jQuery(document).ready(function() {
+	if (typeof fjgwpp_galleriesInit_functions !== "undefined") {
+		for (var i = 0; i < fjgwpp_galleriesInit_functions.length; i++) {
+			fjgwpp_galleriesInit_functions[i]();
+		}
+	}
+});

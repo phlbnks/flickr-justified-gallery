@@ -3,7 +3,7 @@
 Plugin Name: Flickr Justified Gallery
 Plugin URI: http://miromannino.it/projects/flickr-justified-gallery/
 Description: Shows the Flickr photostream, sets and galleries, with an high quality justified gallery.
-Version: 3.3.6
+Version: 3.4.0
 Author: Miro Mannino
 Author URI: http://miromannino.com/about-me/
 
@@ -75,18 +75,25 @@ function fjgwpp_init() {
 add_action('wp_enqueue_scripts', 'fjgwpp_addCSSandJS');
 function fjgwpp_addCSSandJS() {
 
+	//Register styles
+	wp_register_style('justifiedGallery', plugins_url('css/justifiedGallery.min.css', __FILE__), NULL, 'v3.6');
+	wp_register_style('flickrJustifiedGalleryWPPlugin', plugins_url('css/flickrJustifiedGalleryWPPlugin.css', __FILE__), NULL, 'v3.4.0');
+
 	//Register scripts
-	wp_register_style('justifiedGallery', plugins_url('css/justifiedGallery.min.css', __FILE__));
-	wp_register_style('flickrJustifiedGalleryWPPlugin', plugins_url('css/flickrJustifiedGalleryWPPlugin.css', __FILE__));
-	wp_register_script('justifiedGallery', plugins_url('js/jquery.justifiedGallery.min.js', __FILE__));
-	wp_register_script('flickrJustifiedGalleryWPPlugin', plugins_url('js/flickrJustifiedGalleryWPPlugin.js', __FILE__));
+	wp_register_script('justifiedGallery', plugins_url('js/jquery.justifiedGallery.min.js', __FILE__),
+		array('jquery'), 'v3.6', true);
+	wp_register_script('flickrJustifiedGalleryWPPlugin', plugins_url('js/flickrJustifiedGalleryWPPlugin.js', __FILE__),
+		array('jquery', 'justifiedGallery'), 'v3.4.0', true);
+
 	if (fjgwpp_getOption('provideColorbox')) {
 		wp_register_style('colorbox', plugins_url('lightboxes/colorbox/colorbox.css', __FILE__));
-		wp_register_script('colorbox', plugins_url('lightboxes/colorbox/jquery.colorbox-min.js', __FILE__));
+		wp_register_script('colorbox', plugins_url('lightboxes/colorbox/jquery.colorbox-min.js', __FILE__),
+			array('jquery'), 'v1.5.14', true);
 	}
 	if (fjgwpp_getOption('provideSwipebox')) {
 		wp_register_style('swipebox', plugins_url('lightboxes/swipebox/css/swipebox.min.css', __FILE__));
-		wp_register_script('swipebox', plugins_url('lightboxes/swipebox/js/jquery.swipebox.min.js', __FILE__));
+		wp_register_script('swipebox', plugins_url('lightboxes/swipebox/js/jquery.swipebox.min.js', __FILE__),
+			array('jquery'), 'v1.3.0.2', true);
 	}
 
 	//Enqueue styles
@@ -207,6 +214,7 @@ function fjgwpp_createGallery($action, $atts) {
 	else : // standard call
 		$f = new phpFlickr($flickrAPIKey);
 	endif;
+
 	$upload_dir = wp_upload_dir();
 	$f->enableCache("fs", $upload_dir['basedir']."/phpFlickrCache");
 
@@ -346,36 +354,26 @@ function fjgwpp_createGallery($action, $atts) {
 	}
 
 	$ris .= '</div>'
-			 .	'<script type="text/javascript">';
+		 .	'<script type="text/javascript">';
 
-	if ($block_contextmenu) {
-		$ris .= 'function fpDisableContextMenu(imgs) {
-					function absorbEvent_(event) {
-						var e = event || window.event;
-						e.preventDefault && e.preventDefault();
-						e.stopPropagation && e.stopPropagation();
-						e.cancelBubble = true;
-						e.returnValue = false;
-						return false;
-					}
-					imgs.on("contextmenu ontouchstart ontouchmove ontouchend ontouchcancel", absorbEvent_);
-				}';
-		$ris .= "\n";
-	}
-
-	$ris .= 'jQueryFJGWPP(document).ready(function(){
-				jQueryFJGWPP("#' . $flickrGalID . '")';
+	$ris .= 'function fjgwppInit_' . $flickrGalID . '() {
+				jQuery("#' . $flickrGalID . '")';
 
 	if ($lightbox === 'colorbox') {
 		$ris .= '.on(\'jg.rowflush jg.complete\', function() {
-					jQueryFJGWPP(this).find("> a").colorbox({
+					jQuery(this).find("> a").colorbox({
+						title:function() {
+        					var tit= \'<div class="boxTitle">\'+jQuery(this).find(\'.photo-title\').html()+\'</div>\';
+        					var cap =\'<div class="boxCaption">\'+jQuery(this).find(\'.photo-desc\').html()+\'</div>\';
+        					return tit+cap;
+        				},
 						maxWidth : "85%",
 						maxHeight : "85%",
 						current : "",';
 
 		if ($block_contextmenu) {
 			$ris .= 	'onComplete: function() {
-							fpDisableContextMenu(jQueryFJGWPP("#colorbox .cboxPhoto"));
+							fjgwppDisableContextMenu(jQuery("#colorbox .cboxPhoto"));
 						}';
 		}
 
@@ -383,13 +381,13 @@ function fjgwpp_createGallery($action, $atts) {
 				})';
 	} else if ($lightbox === 'swipebox') {
 		$ris .= '.on(\'jg.complete\', function() {
-					jQueryFJGWPP("#' . $flickrGalID . '").find("> a").swipebox(';
+					jQuery("#' . $flickrGalID . '").find("> a").swipebox(';
 
 		if ($block_contextmenu) {
 			$ris .= '{
 						afterOpen : function () {
 							setTimeout(function() {
-								fpDisableContextMenu(jQueryFJGWPP("#swipebox-overlay .slide img"));
+								fjgwppDisableContextMenu(jQuery("#swipebox-overlay .slide img"));
 							}, 100);
 						}
 					}';
@@ -413,11 +411,13 @@ function fjgwpp_createGallery($action, $atts) {
 			 .  '}});';
 
 	if ($block_contextmenu) {
-		$ris .= 'fpDisableContextMenu(jQueryFJGWPP("#' . $flickrGalID . '").find("> a"));';
+		$ris .= 'fpDisableContextMenu(jQuery("#' . $flickrGalID . '").find("> a"));';
 	}
 
-	$ris .= ' });'
-			 .	'</script>';
+	$ris .= '}'
+		.	'if (typeof fjgwpp_galleriesInit_functions === "undefined") fjgwpp_galleriesInit_functions = [];'
+		.	'fjgwpp_galleriesInit_functions.push(fjgwppInit_' . $flickrGalID . ');'
+		.	'</script>';
 
 	//Navigation---------------------
 	if($pagination !== 'none') {
